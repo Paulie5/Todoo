@@ -8,6 +8,7 @@
 
 import UIKit
 import RealmSwift
+import ChameleonFramework
 
 
 class TodoListViewController: SwipetableViewController {
@@ -25,10 +26,18 @@ class TodoListViewController: SwipetableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
-        
-        print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
-        
+        tableView.separatorStyle = .none
+    
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        if let colourHex = selectedCategory?.colour {
+
+            guard let navBar = navigationController?.navigationBar else {fatalError("Navigation controller does not exist.")}
+
+            navBar.barTintColor = UIColor(hexString: colourHex)
+        }
+
     }
     
     
@@ -48,6 +57,11 @@ class TodoListViewController: SwipetableViewController {
         if let item = todoItems?[indexPath.row] {
             
             cell.textLabel?.text = item.title
+            
+            if let colour = UIColor(hexString: selectedCategory!.colour)?.darken(byPercentage: CGFloat(indexPath.row) / CGFloat(todoItems!.count)) {
+                cell.backgroundColor = colour
+                cell.textLabel?.textColor = ContrastColorOf(colour, returnFlat: true)
+            }
             
             cell.accessoryType = item.done ? .checkmark : .none
         } else {
