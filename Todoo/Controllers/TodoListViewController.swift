@@ -12,7 +12,7 @@ import RealmSwift
 
 class TodoListViewController: UITableViewController {
     
-    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+//    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
     var todoItems: Results<Item>?
     let realm = try! Realm()
