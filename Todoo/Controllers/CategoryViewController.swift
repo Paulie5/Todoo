@@ -43,9 +43,28 @@ class CategoryViewController: SwipetableViewController {
         
         let cell = super.tableView(tableView, cellForRowAt: indexPath)
         
-        cell.textLabel?.text = categories?[indexPath.row].name ?? "No categories added yet"
+        if let category = categories?[indexPath.row] {
+//
+            cell.textLabel?.text = category.name
+
+//            guard let categoryColour = UIColor(hexString: category.colour) else {fatalError()}
+            
+            cell.backgroundColor = UIColor(hexString: category.colour)
+
+            if let textLabelColour = UIColor(hexString: category.colour) {
+                
+                cell.textLabel?.textColor = ContrastColorOf(textLabelColour, returnFlat: true)
+            }
         
-        cell.backgroundColor = UIColor(hexString: categories? [indexPath.row].colour ?? "7A81FF")
+//        cell.textLabel?.text = categories?[indexPath.row].name ?? "No categories added yet"
+//
+//        cell.backgroundColor = UIColor(hexString: category.colour)
+//
+////        cell.backgroundColor = UIColor(hexString: categories? [indexPath.row].colour ?? "7A81FF")
+//// HAVE USED FORCE UNWRAPPING HERE AS COULD NOT SET OPTIONAL IF NIL NEEDS FIXING
+//            cell.textLabel?.textColor = ContrastColorOf(UIColor(hexString: category.colour)!, returnFlat: true)
+        
+    }
         
         return cell
         

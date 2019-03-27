@@ -13,10 +13,14 @@ import ChameleonFramework
 
 class TodoListViewController: SwipetableViewController {
     
-//    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    @IBOutlet weak var searchBar: UISearchBar!
+    
     
     var todoItems: Results<Item>?
     let realm = try! Realm()
+    
+    
+    
     var selectedCategory : Category? {
         didSet{
             loadItems()
@@ -31,14 +35,47 @@ class TodoListViewController: SwipetableViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        if let colourHex = selectedCategory?.colour {
-
-            guard let navBar = navigationController?.navigationBar else {fatalError("Navigation controller does not exist.")}
-
-            navBar.barTintColor = UIColor(hexString: colourHex)
-        }
-
+        
+        title = selectedCategory?.name
+        
+        guard let colourHex = selectedCategory?.colour else { fatalError() }
+        
+        updateNavBar(withHexCode: colourHex)
+            
+        
+        
+        
+        
     }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        
+        updateNavBar(withHexCode: "1D9BF6")
+        
+    }
+    
+    //MARK: - Nav Bar Setup Methods
+    
+    func updateNavBar(withHexCode colourHexCode: String){
+        
+        guard let navBar = navigationController?.navigationBar else {fatalError("Navigation controller does not exist.")}
+        
+        guard let  navBarColor = UIColor(hexString: colourHexCode) else { fatalError() }
+        
+        navBar.barTintColor = navBarColor
+        
+        navBar.tintColor = ContrastColorOf(navBarColor, returnFlat: true)
+        
+        navBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor : ContrastColorOf(navBarColor, returnFlat: true)]
+        
+        
+        
+        searchBar.barTintColor = navBarColor
+        
+        
+    }
+    
+    
     
     
     //MARK: - Tableview Datasource Methods
