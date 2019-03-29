@@ -18,8 +18,9 @@ class CategoryViewController: SwipetableViewController {
     
     var categories: Results<Category>?
     
+    var colorArray = [FlatPurpleDark().lighten(byPercentage: 0.25), FlatPurple().lighten(byPercentage: 0.25)]
     
-    
+//    var colorArray = [ColorSchemeOf(ColorScheme.analogous, color: FlatGray(), isFlatScheme: true)]
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -49,10 +50,18 @@ class CategoryViewController: SwipetableViewController {
 
 //            guard let categoryColour = UIColor(hexString: category.colour) else {fatalError()}
             
-            cell.backgroundColor = UIColor(hexString: category.colour)
-
-            if let textLabelColour = UIColor(hexString: category.colour) {
+            if (indexPath.row % 2 == 0) {
+                cell.backgroundColor = FlatPurpleDark()
+            } else {
+                    cell.backgroundColor = FlatPurple()
+                }
                 
+            
+            
+//            cell.backgroundColor = UIColor(hexString: category.colour)
+//
+            if let textLabelColour = UIColor(hexString: category.colour) {
+
                 cell.textLabel?.textColor = ContrastColorOf(textLabelColour, returnFlat: true)
             }
         
@@ -91,8 +100,6 @@ class CategoryViewController: SwipetableViewController {
     
     //MARK: - Data Manipulation Methods
     
-    
-    
     func save(category: Category) {
         
         do {
@@ -129,10 +136,12 @@ class CategoryViewController: SwipetableViewController {
             }
         }
         
+        
+     
     }
     
     
-    
+
     
     
     
@@ -150,7 +159,9 @@ class CategoryViewController: SwipetableViewController {
         
         let newCategory = Category()
         newCategory.name = textField.text!
-        newCategory.colour = UIColor.randomFlat.hexValue()
+        newCategory.colour = (self.colorArray.randomElement()??.hexValue())!
+        
+//        newCategory.colour = FlatWatermelonDark().hexValue()
 
         
         

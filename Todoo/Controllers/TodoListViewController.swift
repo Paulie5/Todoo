@@ -38,10 +38,10 @@ class TodoListViewController: SwipetableViewController {
         
         title = selectedCategory?.name
         
-        guard let colourHex = selectedCategory?.colour else { fatalError() }
+        guard let colourHex = selectedCategory?.colour else { fatalError("nav controller doesn't exitst") }
         
         updateNavBar(withHexCode: colourHex)
-            
+        
         
         
         
@@ -50,7 +50,7 @@ class TodoListViewController: SwipetableViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         
-        updateNavBar(withHexCode: "1D9BF6")
+        updateNavBar(withHexCode: "5B47A3")
         
     }
     
@@ -95,7 +95,7 @@ class TodoListViewController: SwipetableViewController {
             
             cell.textLabel?.text = item.title
             
-            if let colour = UIColor(hexString: selectedCategory!.colour)?.darken(byPercentage: CGFloat(indexPath.row) / CGFloat(todoItems!.count)) {
+            if let colour = UIColor(hexString: selectedCategory!.colour)?.darken(byPercentage: CGFloat(indexPath.row) / CGFloat(todoItems!.count) * 0.40) {
                 cell.backgroundColor = colour
                 cell.textLabel?.textColor = ContrastColorOf(colour, returnFlat: true)
             }
